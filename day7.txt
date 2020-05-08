@@ -1,0 +1,83 @@
+In a binary tree, the root node is at depth 0, and children of each depth k node are at depth k+1.
+
+Two nodes of a binary tree are cousins if they have the same depth, but have different parents.
+
+We are given the root of a binary tree with unique values, and the values x and y of two different nodes in the tree.
+
+Return true if and only if the nodes corresponding to the values x and y are cousins.
+
+ 
+
+Example 1:
+
+
+Input: root = [1,2,3,4], x = 4, y = 3
+Output: false
+Example 2:
+
+
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+Output: true
+Example 3:
+
+
+
+Input: root = [1,2,3,null,4], x = 2, y = 3
+Output: false
+ 
+
+Note:
+
+The number of nodes in the tree will be between 2 and 100.
+Each node has a unique integer value from 1 to 100.
+
+----------------------------------------------------------------
+JavaScript Solution - 
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
+
+function depth(node,parent,level,value){
+    if(node === null){
+        return 0;
+    }
+    if(node.val===value){
+        return {level,parent};
+    }
+    var val1 = depth(node.left,node,level+1,value);
+    var val2 = depth(node.right,node,level+1,value);
+    if(val1 !== 0 ){
+        return val1;
+    }
+    if(val2 !== 0){
+        return val2;
+    }
+    return 0;
+}
+
+var isCousins = function(root, x, y) {
+    var val1 = depth(root,null,1,x);
+    var val2 = depth(root,null,1,y);
+    
+    if(typeof val1 === 'object' && typeof val2 === 'object'){
+        if(val1.level===val2.level && val1.parent!==val2.parent){
+            return true
+        }else{
+            return false
+        }
+    }
+    return false
+};
+
